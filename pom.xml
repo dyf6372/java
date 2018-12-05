@@ -3,12 +3,37 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.jsoniter</groupId>
-    <version>0.9.23</version>
+    <version>0.9.23-bd1-SNAPSHOT</version>
     <artifactId>jsoniter</artifactId>
     <name>json iterator</name>
     <description>jsoniter (json-iterator) is fast and flexible JSON parser available in Java and Go</description>
     <url>http://jsoniter.com</url>
     <packaging>jar</packaging>
+
+    <repositories>
+        <repository>
+            <id>bytedance-releases</id>
+            <name>Bytedance Releases Repository</name>
+            <url>https://maven.byted.org/repository/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>bytedance-snapshots</id>
+            <name>Bytedance Snapshots Repository</name>
+            <url>https://maven.byted.org/repository/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <licenses>
         <license>
@@ -157,31 +182,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.8</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.3</version>
                 <configuration>
@@ -214,8 +214,14 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>bytedance-snapshots</id>
+            <name>Bytedance Snapshots Repository</name>
+            <url>https://maven.byted.org/repository/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>bytedance-releases</id>
+            <name>Bytedance Releases Repository</name>
+            <url>https://maven.byted.org/repository/releases</url>
+        </repository>
     </distributionManagement>
 </project>

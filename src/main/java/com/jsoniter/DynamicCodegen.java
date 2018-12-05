@@ -13,7 +13,21 @@ class DynamicCodegen {
 
     public static Decoder gen(String cacheKey, String source) throws Exception {
         Decoder decoder;
-        CtClass ctClass = pool.makeClass(cacheKey);
+        CtClass ctClass;
+        try {
+            ctClass = pool.makeClass(cacheKey);
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("frozen class (cannot edit)")) {
+                try {
+                    return (Decoder) Class.forName(cacheKey).newInstance();
+                } catch (ClassNotFoundException e1) {
+                    ctClass = pool.get(cacheKey);
+                    return (Decoder) ctClass.toClass().newInstance();
+                }
+            } else {
+                throw e;
+            }
+        }
         ctClass.setInterfaces(new CtClass[]{pool.get(Decoder.class.getName())});
         CtMethod staticMethod = CtNewMethod.make(source, ctClass);
         ctClass.addMethod(staticMethod);
